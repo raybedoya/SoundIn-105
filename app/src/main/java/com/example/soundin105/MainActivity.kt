@@ -9,7 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.soundin105.ui.UserSessionViewModel
+import com.example.soundin105.ui.navigation.SoundInNavGraph
 import com.example.soundin105.ui.screens.LoginScreen
 import com.example.soundin105.ui.theme.SoundIn105Theme
 
@@ -18,32 +22,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+            val sessionViewModel: UserSessionViewModel = viewModel()
             SoundIn105Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ){
-                    LoginScreen(
-                        onNavigateToRegister = {}
+                    SoundInNavGraph(navController = navController,
+                        sessionViewModel = sessionViewModel
                     )
+
                 }
 
             }
         }
     }
-}
-@Preview
-@Composable
-fun SoundIn105Preview(){
-    SoundIn105Theme() {
-        LoginScreen(
-            onNavigateToRegister = {
-                
-            }
-        )
 
-    }
 }
+
 
 
 

@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.soundin105.ui.LoginViewModel
+import com.example.soundin105.ui.UserSessionViewModel
 import com.example.soundin105.ui.theme.SoundIn105Theme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -173,7 +174,9 @@ fun LoginContent (
 @Composable
 fun LoginScreen(
     viewModel : LoginViewModel = viewModel(),
-    onNavigateToRegister: () -> Unit
+    sessionViewModel: UserSessionViewModel,
+    onNavigateToRegister: () -> Unit,
+    onLoginSuccess: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -210,9 +213,16 @@ fun LoginScreen(
                 val isValid = viewModel.validateAndLogin()
                     scope.launch {
                         if (isValid) {
-                            snackbarHostState.showSnackbar(
-                                message = "Welcome to SoundIn"
+                            sessionViewModel.login(
+                                name = "John Doe",
+                                email = email
                             )
+                            snackbarHostState.showSnackbar(
+                                message = "Welcome to SoundIn",
+                                actionLabel = "Go",
+                                duration = SnackbarDuration.Short
+                            )
+                            onLoginSuccess()
                         }else{
                             snackbarHostState.showSnackbar(
                                 message = "Please review marked fields"
