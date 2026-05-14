@@ -103,7 +103,7 @@ fun ProfileScreen(
            onClick = {
                showLogoutDialog = true
            },
-           modifier = Modifier.fillMaxSize()
+           modifier = Modifier.fillMaxWidth()
 
        ){ Text("Logout") }
    }
